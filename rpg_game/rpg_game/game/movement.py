@@ -11,10 +11,10 @@ class MovementManager:
     def move_entity(self, entity: Entity, direction: str) -> bool:
         """Перемещение игрока по направлению"""
         new_x, new_y = entity.position.x, entity.position.y
-        if direction == 'n': new_y -= 1
-        elif direction == 's': new_y += 1
-        elif direction == 'e': new_x += 1
-        elif direction == 'w': new_x -= 1
+        if direction == 'move_n': new_y -= 1
+        elif direction == 'move_s': new_y += 1
+        elif direction == 'move_e': new_x += 1
+        elif direction == 'move_w': new_x -= 1
         else: return False
 
         if 0 <= new_x < self.map_size and 0 <= new_y < self.map_size:
