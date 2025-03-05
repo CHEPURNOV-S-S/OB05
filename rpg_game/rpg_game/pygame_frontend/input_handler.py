@@ -18,6 +18,8 @@ class PygameInputHandler(InputHandlerInterface):
             pygame.K_LEFT: 'move_w',
             pygame.K_RIGHT: 'move_e',
             pygame.K_SPACE: 'attack',
-            pygame.K_c: 'change_weapon'
+            pygame.K_c: 'change_weapon',
+            pygame.K_RETURN: 'end_turn',
+            pygame.K_KP_ENTER: 'end_turn'
         }
         return key_map.get(key)

@@ -45,6 +45,8 @@ class Game(ABC):
             if command == 'quit':
                 self._game_over = True
                 return
+            if command == 'end_turn':
+                break
             self._execute_command(command)
         self.fighter.reset_ap()
 
