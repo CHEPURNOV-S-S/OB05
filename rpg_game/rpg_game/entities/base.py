@@ -48,3 +48,10 @@ class Entity(ABC):
 
     def _on_position_change(self, new_pos: Position):
         print(f"{type(self).__name__} moved to {new_pos}")
+
+
+class DrawableEntity(Entity):
+    @abstractmethod
+    def get_render_info(self) -> dict:
+        """Возвращает данные для отрисовки: цвет, спрайт и т.д."""
+        pass

@@ -1,8 +1,8 @@
-from ..entities.base import Entity, Position
+from ..entities.base import Entity, Position, DrawableEntity
 from ..weapons.base import Weapon
 import random
 
-class Monster(Entity):
+class Monster(DrawableEntity):
     def __init__(self, position: Position):
         super().__init__(position, health=50)
 
@@ -15,3 +15,6 @@ class Monster(Entity):
             damage = random.randint(10, 20)
             target.take_damage(damage)
             print(f"Монстр атакует! {damage} урона.")
+
+    def get_render_info(self):
+        return {"color": (255, 0, 0), "radius": 18}

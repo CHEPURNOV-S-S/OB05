@@ -1,6 +1,7 @@
-from ..entities.base import Entity, Position
+from ..entities.base import Entity, Position, DrawableEntity
 
-class Fighter(Entity):
+
+class Fighter(DrawableEntity):
     def __init__(self, position: Position, max_ap: int):
         super().__init__(position, health=100)
         self.max_ap = max_ap
@@ -15,6 +16,8 @@ class Fighter(Entity):
         max_possible = int(self.max_ap * 1.5)
         self.current_ap = min(self.max_ap + self.carried_over_ap, max_possible)
 
+    def get_render_info(self):
+        return {"color": (0, 255, 0), "radius": 20}
 
     def change_weapon(self, weapon) -> bool:
         """Смена оружия (1 ОД)"""

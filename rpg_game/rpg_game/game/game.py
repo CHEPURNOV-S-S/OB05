@@ -1,10 +1,8 @@
 # game/game.py
 from abc import ABC, abstractmethod
-from rpg_game.entities.fighter import Fighter
-from rpg_game.entities.monster import Monster
+from rpg_game.entities import DrawableEntity, Fighter, Monster, Position
 from rpg_game.weapons.sword import Sword
 from rpg_game.weapons.bow import Bow
-from rpg_game.entities.base import Position
 from .renderer_interface import RendererInterface
 from .input_handler_interface import InputHandlerInterface
 from .movement import MovementManager
@@ -32,6 +30,9 @@ class Game(ABC):
         while not self._game_over:
             self._process_game_loop()
             self._check_game_over()
+
+    def get_entities(self) -> list[DrawableEntity]:
+        return [self.fighter, self.monster]
 
     def _process_game_loop(self):
         self._player_turn()
