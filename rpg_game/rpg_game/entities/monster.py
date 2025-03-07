@@ -16,5 +16,9 @@ class Monster(DrawableEntity):
             target.take_damage(damage)
             print(f"Монстр атакует! {damage} урона.")
 
-    def get_render_info(self):
-        return {"color": (255, 0, 0), "radius": 18}
+    def get_render_info(self) -> dict:
+        return {
+            "sprite_name": "monster.png",  # Только имя файла
+            "size": (64, 64),  # Размер спрайта
+            "offset": (0, 0)  # Смещение при отрисовки
+        }

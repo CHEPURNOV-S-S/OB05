@@ -16,8 +16,12 @@ class Fighter(DrawableEntity):
         max_possible = int(self.max_ap * 1.5)
         self.current_ap = min(self.max_ap + self.carried_over_ap, max_possible)
 
-    def get_render_info(self):
-        return {"color": (0, 255, 0), "radius": 20}
+    def get_render_info(self) -> dict:
+        return {
+            "sprite_name": "player.png",  # Только имя файла
+            "size": (64, 64),             # Размер спрайта
+            "offset": (0, 0)              # Смещение при отрисовки
+        }
 
     def change_weapon(self, weapon) -> bool:
         """Смена оружия (1 ОД)"""
