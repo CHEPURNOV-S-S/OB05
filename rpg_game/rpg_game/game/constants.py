@@ -1,3 +1,5 @@
+# game/constants.py
+
 MAP_SIZE = 10
 TILE_SIZE = 64  # Размер спрайта
 SCREEN_WIDTH = (TILE_SIZE+2) * 10

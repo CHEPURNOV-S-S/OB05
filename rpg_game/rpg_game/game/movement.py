@@ -3,9 +3,11 @@ from rpg_game.entities.base import Entity
 from rpg_game.entities.fighter import Fighter
 from rpg_game.entities.monster import Monster
 from rpg_game.entities.base import Position
+from .map import GameMap
 
 class MovementManager:
-    def __init__(self, map_size: int):
+    def __init__(self, game_map: GameMap, map_size: int):
+        self.game_map = game_map
         self.map_size = map_size  # Например, из constants.py
 
     def move_entity(self, entity: Entity, direction: str) -> bool:
@@ -17,7 +19,7 @@ class MovementManager:
         elif direction == 'move_w': new_x -= 1
         else: return False
 
-        if 0 <= new_x < self.map_size and 0 <= new_y < self.map_size:
+        if self.game_map.is_passable(Position(new_x, new_y)):
             entity.position = Position(new_x, new_y)
             return True
         return False

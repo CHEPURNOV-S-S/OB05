@@ -7,6 +7,7 @@ from .renderer_interface import RendererInterface
 from .input_handler_interface import InputHandlerInterface
 from .movement import MovementManager
 from .constants import MAP_SIZE
+from .map import GameMap
 import random
 
 class Game(ABC):
@@ -15,16 +16,34 @@ class Game(ABC):
                  input_handler: InputHandlerInterface):
         self.renderer = renderer
         self.input_handler = input_handler
+
+        self.game_map = GameMap(MAP_SIZE)
+        self._generate_map()
+
         self.fighter = Fighter(Position(5, 0), max_ap=5)
         self.monster = self._generate_monster()
-        self.movement = MovementManager(MAP_SIZE)
+        self.movement = MovementManager(self.game_map, MAP_SIZE)
         self._game_over = False
 
     def _generate_monster(self):
         while True:
             x, y = random.randint(0,9), random.randint(0,9)
-            if not (x == 5 and y == 0):
-                return Monster(Position(x, y))
+            if self.game_map.is_passable(Position(x, y)):
+                if not (x == 5 and y == 0):
+                    return Monster(Position(x, y))
+
+    def _generate_map(self):
+        # Пример генерации
+        for y in range(MAP_SIZE):
+            for x in range(MAP_SIZE):
+                if x == 5 and y == 0:
+                    continue
+                if random.random() < 0.1:
+                    self.game_map.set_tile(x, y, 'grass', ['rock'])
+                    print (f'Камень на {x}, {y}')
+                elif random.random() < 0.1:
+                    self.game_map.set_tile(x, y, 'grass', ['tree'])
+                    print(f'дерево на {x}, {y}')
 
     def run(self):
         while not self._game_over:
@@ -83,10 +102,11 @@ class Game(ABC):
 
 
     def _monster_turn(self):
-        if self.movement.move_monster_towards_target(self.monster, self.fighter):
-            pass  # Monster moved
-        else:
-            self.monster.attack(self.fighter)
+        if self.monster.is_alive():
+            if self.movement.move_monster_towards_target(self.monster, self.fighter):
+                pass  # Monster moved
+            else:
+                self.monster.attack(self.fighter)
 
     def _check_game_over(self):
         if not self.fighter.is_alive() or not self.monster.is_alive():

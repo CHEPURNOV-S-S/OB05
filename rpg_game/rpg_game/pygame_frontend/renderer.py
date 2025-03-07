@@ -17,7 +17,7 @@ class PygameRenderer(RendererInterface):
 
     def render(self, game):
         self.screen.fill((30, 30, 30))  # Темный фон
-        self._draw_grid()
+        self._draw_map(game)
         entities = game.get_entities()
         self._draw_entities(entities)
         self._draw_status(game.fighter)
@@ -29,6 +29,22 @@ class PygameRenderer(RendererInterface):
             for y in range(MAP_SIZE):
                 tile = self.assets.get_sprite("tiles/grass.png")
                 self.screen.blit(tile, (x * self.tile_size, y * self.tile_size))
+
+    def _draw_map(self, game):
+        for y in range(MAP_SIZE):
+            for x in range(MAP_SIZE):
+                tile = game.game_map.tiles[y][x]
+
+                # Слой земли через AssetManager
+                terrain_sprite = self.assets.get_terrain_sprite(tile.terrain_type)
+                self.screen.blit(terrain_sprite, (x * self.tile_size, y * self.tile_size))
+
+                # Слой объектов через AssetManager
+                for obj in tile.objects:
+                    obj_sprite = self.assets.get_object_sprite(obj)
+                    if obj_sprite:
+                        self.screen.blit(obj_sprite, (x * self.tile_size, y * self.tile_size))
+
 
     def _draw_entities(self, entities: list):
         for entity in entities:

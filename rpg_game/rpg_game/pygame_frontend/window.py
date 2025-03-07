@@ -1,3 +1,4 @@
+# pygame_frontend/window.py
 
 import pygame
 from rpg_game.game.constants import SCREEN_WIDTH, SCREEN_HEIGHT

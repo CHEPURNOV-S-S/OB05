@@ -1,3 +1,5 @@
+# entities/monster.py
+
 from ..entities.base import Entity, Position, DrawableEntity
 from ..weapons.base import Weapon
 import random
@@ -15,6 +17,8 @@ class Monster(DrawableEntity):
             damage = random.randint(10, 20)
             target.take_damage(damage)
             print(f"Монстр атакует! {damage} урона.")
+            return True
+        return False
 
     def get_render_info(self) -> dict:
         return {

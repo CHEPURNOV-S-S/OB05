@@ -1,3 +1,5 @@
+# entities/fighter.py
+
 from ..entities.base import Entity, Position, DrawableEntity
 
 
