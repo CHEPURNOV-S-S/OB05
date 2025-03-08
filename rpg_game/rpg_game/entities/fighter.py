@@ -5,11 +5,11 @@ from ..entities.base import Entity, Position, DrawableEntity
 
 class Fighter(DrawableEntity):
     def __init__(self, position: Position, max_ap: int):
-        super().__init__(position, health=100)
         self.max_ap = max_ap
         self.current_ap = max_ap
         self.weapon = None  # Начальное оружие
         self.carried_over_ap = 0
+        super().__init__(position, health=100)
 
     def reset_ap(self):
         """Пересчет ОД после хода"""

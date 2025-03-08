@@ -6,9 +6,8 @@ from rpg_game.entities.base import Position
 from .map import GameMap
 
 class MovementManager:
-    def __init__(self, game_map: GameMap, map_size: int):
+    def __init__(self, game_map: GameMap):
         self.game_map = game_map
-        self.map_size = map_size  # Например, из constants.py
 
     def move_entity(self, entity: Entity, direction: str) -> bool:
         """Перемещение игрока по направлению"""
@@ -20,7 +19,10 @@ class MovementManager:
         else: return False
 
         if self.game_map.is_passable(Position(new_x, new_y)):
+            old_x, old_y = entity.position.x, entity.position.y
+            self.game_map.set_tile_layer(old_x, old_y, 'entities', None)
             entity.position = Position(new_x, new_y)
+            self.game_map.set_tile_layer(new_x, new_y, 'entities', [entity])
             return True
         return False
 
@@ -40,7 +42,8 @@ class MovementManager:
         new_y = monster.position.y + (1 if dy > 0 else -1 if dy < 0 else 0)
 
         # Проверяем границы карты
-        if 0 <= new_x < self.map_size and 0 <= new_y < self.map_size:
+
+        if self.game_map.is_passable(Position(new_x, new_y)):
             monster.position = Position(new_x, new_y)
             return True
         return False

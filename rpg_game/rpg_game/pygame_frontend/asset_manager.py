@@ -18,6 +18,11 @@ class AssetManager:
             'rock': 'objects/rock.png'  # Пример расширения
         }
 
+        # Предзагрузка всех спрайтов для всех слоёв
+        self.layer_sprites = {
+            'ground': self._preload_sprites(self.terrain_mapping),
+            'objects': self._preload_sprites(self.object_mapping)
+        }
 
     def get_sprite(self, name: str, scale: Optional[tuple[int, int]] = None):
         if name not in self.sprites:
@@ -33,6 +38,14 @@ class AssetManager:
 
             self.sprites[name] = sprite
         return self.sprites[name]
+
+    def _preload_sprites(self, mapping: dict) -> dict:
+        """Вспомогательный метод для предзагрузки спрайтов из маппинга"""
+        return {key: self.get_sprite(path) for key, path in mapping.items()}
+
+    def get_layer_sprites(self, layer_type: str) -> dict:
+        """Возвращает предзагруженные спрайты для указанного слоя"""
+        return self.layer_sprites.get(layer_type, {})
 
     def get_terrain_sprite(self, terrain_type: str):
         path = self.terrain_mapping.get(terrain_type, 'tiles/grass.png')

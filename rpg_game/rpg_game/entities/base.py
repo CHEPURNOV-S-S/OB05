@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-
+from rpg_game.game.events import Events
 
 @dataclass
 class Position():
@@ -24,10 +24,17 @@ class Entity(ABC):
     def __init__(self, position: Position, health: int):
         self._position = position
         self.health = health
+        Events.ENTITY_CREATED.fire(entity=self)  # Уведомление о создании
+
 
     def take_damage(self, damage: int):
-        self.health -= damage
+        self.health = max(self.health - damage, 0)
+        if self.health == 0:
+            self._die()
         return self.health <= 0
+
+    def _die(self):
+        Events.ENTITY_DIED.fire(entity=self)  # Уведомление о смерти
 
     def is_alive(self) -> bool:
         return self.health > 0
@@ -45,8 +52,13 @@ class Entity(ABC):
         if not isinstance(new_pos, Position):
             raise TypeError("Ожидался Position")
         if new_pos != self._position:
-            self._on_position_change(new_pos)
-        self._position = new_pos
+            old_pos = self._position
+            self._position = new_pos
+            Events.ENTITY_MOVED.fire(  # Уведомление о перемещении
+                entity=self,
+                old_pos=old_pos,
+                new_pos=new_pos
+            )
 
     def _on_position_change(self, new_pos: Position):
         print(f"{type(self).__name__} moved to {new_pos}")

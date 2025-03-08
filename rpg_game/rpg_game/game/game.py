@@ -6,7 +6,7 @@ from rpg_game.weapons.bow import Bow
 from .renderer_interface import RendererInterface
 from .input_handler_interface import InputHandlerInterface
 from .movement import MovementManager
-from .constants import MAP_SIZE
+from .constants import MAP_WIDTH, MAP_HEIGHT
 from .map import GameMap
 import random
 
@@ -17,32 +17,35 @@ class Game(ABC):
         self.renderer = renderer
         self.input_handler = input_handler
 
-        self.game_map = GameMap(MAP_SIZE)
+        self.game_map = GameMap(MAP_WIDTH, MAP_HEIGHT)
         self._generate_map()
 
         self.fighter = Fighter(Position(5, 0), max_ap=5)
         self.monster = self._generate_monster()
-        self.movement = MovementManager(self.game_map, MAP_SIZE)
+
+        self.movement = MovementManager(self.game_map)
         self._game_over = False
 
     def _generate_monster(self):
         while True:
-            x, y = random.randint(0,9), random.randint(0,9)
+            map_width, map_heigth = self.game_map.get_size()
+            x, y = random.randint(0,map_width-1), random.randint(0,map_heigth-1)
             if self.game_map.is_passable(Position(x, y)):
                 if not (x == 5 and y == 0):
                     return Monster(Position(x, y))
 
     def _generate_map(self):
         # Пример генерации
-        for y in range(MAP_SIZE):
-            for x in range(MAP_SIZE):
+        width, height = self.game_map.get_size()
+        for y in range(height):
+            for x in range(width):
                 if x == 5 and y == 0:
                     continue
                 if random.random() < 0.1:
-                    self.game_map.set_tile(x, y, 'grass', ['rock'])
-                    print (f'Камень на {x}, {y}')
+                    self.game_map.init_tile(x, y, 'grass', 'objects', ['rock'])
+                    print (f'скала на {x}, {y}')
                 elif random.random() < 0.1:
-                    self.game_map.set_tile(x, y, 'grass', ['tree'])
+                    self.game_map.init_tile(x, y, 'grass', 'objects', ['tree'])
                     print(f'дерево на {x}, {y}')
 
     def run(self):
@@ -56,11 +59,11 @@ class Game(ABC):
     def _process_game_loop(self):
         self._player_turn()
         self._monster_turn()
-        self.renderer.render(self)
+        self.renderer.render(self.game_map)
 
     def _player_turn(self):
         while self.fighter.current_ap > 0 and not self._game_over:
-            self.renderer.render(self)
+            self.renderer.render(self.game_map)
             command = self.input_handler.handle_input()
             if command == 'quit':
                 self._game_over = True
