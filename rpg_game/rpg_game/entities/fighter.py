@@ -22,7 +22,9 @@ class Fighter(DrawableEntity):
         return {
             "sprite_name": "player.png",  # Только имя файла
             "size": (64, 64),             # Размер спрайта
-            "offset": (0, 0)              # Смещение при отрисовки
+            "offset": (0, 0),              # Смещение при отрисовки
+            'health': self.health,
+            'max_health': 100  # Значение из константы
         }
 
     def change_weapon(self, weapon) -> bool:

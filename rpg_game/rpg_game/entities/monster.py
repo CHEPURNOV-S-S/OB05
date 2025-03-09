@@ -24,5 +24,7 @@ class Monster(DrawableEntity):
         return {
             "sprite_name": "monster.png",  # Только имя файла
             "size": (64, 64),  # Размер спрайта
-            "offset": (0, 0)  # Смещение при отрисовки
+            "offset": (0, 0),  # Смещение при отрисовки
+            'health': self.health,
+            'max_health': 50  # Значение из константы
         }

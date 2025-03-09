@@ -7,7 +7,7 @@ class PygameWindow:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("RPG Game")
+        pygame.display.set_caption('RPG Game')
         self.clock = pygame.time.Clock()
 
     def close(self):
