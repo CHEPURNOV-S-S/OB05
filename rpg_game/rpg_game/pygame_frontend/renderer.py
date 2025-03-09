@@ -2,11 +2,12 @@
 from typing import Tuple
 
 import pygame
-from rpg_game.game.constants import TILE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH
+from rpg_game.game.constants import TILE_SIZE, SCREEN_HEIGHT, SCREEN_WIDTH, STATUS_PANEL_HEIGHT
 from rpg_game.entities import DrawableEntity, Position
 from rpg_game.game import IGameMap, Tile, RendererInterface
 from .asset_manager import AssetManager
 
+from .ui_components.status_panel import StatusPanel
 
 class PygameRenderer(RendererInterface):
 
@@ -15,12 +16,14 @@ class PygameRenderer(RendererInterface):
         self.font = pygame.font.SysFont("Arial", 20)
         self.clock = pygame.time.Clock()
         self.assets = AssetManager()
+        self.status_panel = StatusPanel(self.assets)
         self.tile_size = TILE_SIZE
 
     def render(self, game_map: IGameMap):
         self.draw_tiled_background(self.assets.get_terrain_sprite('grass'))
         self._draw_map(game_map)
-        #self._draw_status(game.fighter)
+        pos = (0, SCREEN_HEIGHT - STATUS_PANEL_HEIGHT)
+        self.status_panel.render(self.screen, pos)
         pygame.display.flip()
         self.clock.tick(60)
 
