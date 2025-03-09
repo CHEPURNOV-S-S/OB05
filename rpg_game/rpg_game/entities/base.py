@@ -29,11 +29,16 @@ class Entity(ABC):
 
     def take_damage(self, damage: int):
         self.health = max(self.health - damage, 0)
-        if self.health == 0:
+        if self.health <=  0:
             self._die()
         return self.health <= 0
 
     def _die(self):
+
+        print(f"{type(self).__name__} умер" )
+        Events.LOG_MESSAGE.fire(
+            message=f"{type(self).__name__} умер"
+        )
         Events.ENTITY_DIED.fire(entity=self)  # Уведомление о смерти
 
     def is_alive(self) -> bool:
@@ -58,6 +63,9 @@ class Entity(ABC):
                 entity=self,
                 old_pos=old_pos,
                 new_pos=new_pos
+            )
+            Events.LOG_MESSAGE.fire(
+                message=f"{type(self).__name__} переместился на ({new_pos.x}, {new_pos.y})"
             )
 
     def _on_position_change(self, new_pos: Position):

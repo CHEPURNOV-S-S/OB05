@@ -48,11 +48,7 @@ class Fighter(DrawableEntity):
             return False
 
         if self.weapon.is_valid_attack(self, target):
+            self.current_ap -= 1
             if self.weapon.execute_attack(self, target):
-                self.current_ap -= 1
                 return True
         return False
-
-    def take_damage(self, damage: int):
-        self.health -= damage
-        if self.health < 0: self.health = 0

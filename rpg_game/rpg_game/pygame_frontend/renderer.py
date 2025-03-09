@@ -7,6 +7,7 @@ from rpg_game.entities import DrawableEntity, Position
 from rpg_game.game import IGameMap, Tile, RendererInterface
 from .asset_manager import AssetManager
 
+
 from .ui_components.status_panel import StatusPanel
 
 class PygameRenderer(RendererInterface):
@@ -17,6 +18,7 @@ class PygameRenderer(RendererInterface):
         self.clock = pygame.time.Clock()
         self.assets = AssetManager()
         self.status_panel = StatusPanel(self.assets)
+
         self.tile_size = TILE_SIZE
 
     def render(self, game_map: IGameMap):

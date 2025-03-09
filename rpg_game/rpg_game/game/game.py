@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from rpg_game.entities import DrawableEntity, Fighter, Monster, Position
 from rpg_game.weapons.sword import Sword
 from rpg_game.weapons.bow import Bow
+from .events import Events
 from .renderer_interface import RendererInterface
 from .input_handler_interface import InputHandlerInterface
 from .movement import MovementManager
@@ -104,6 +105,11 @@ class Game(ABC):
         new_weapon = weapon_classes[new_index]()  # Создаём новый экземпляр
         if self.fighter.change_weapon(new_weapon):
             print(f"Оружие изменено на {type(new_weapon).__name__}")
+            Events.LOG_MESSAGE.fire(message=f"Оружие изменено на {type(new_weapon).__name__}")
+            print('После события')
+            print("Активные обработчики LOG_MESSAGE:",
+                 len(Events.LOG_MESSAGE._handlers))
+            print("Существующие LogDisplay:", list(LogDisplay._instances))
 
 
     def _monster_turn(self):

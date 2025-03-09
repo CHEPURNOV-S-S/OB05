@@ -1,7 +1,7 @@
 from random import randint
 from rpg_game.entities.base import Entity
 from rpg_game.weapons.base import Weapon
-
+from rpg_game.game.events import Events
 
 class Bow(Weapon):
     def is_valid_attack(self, attacker: Entity, target: Entity) -> bool:
@@ -16,8 +16,14 @@ class Bow(Weapon):
             damage = randint(10, 20)
             target.take_damage(damage)
             print(f"Лук попадает! {damage} урона.")
+            Events.LOG_MESSAGE.fire(
+                message=f"Атака луком: попадание! {damage} урона."
+            )
             return True
         print("Промах!")
+        Events.LOG_MESSAGE.fire(
+            message=f"Атака луком: промах!"
+        )
         return False
 
     def name(self) -> str:
