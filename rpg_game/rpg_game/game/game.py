@@ -23,6 +23,8 @@ class Game(ABC):
         self.fighter = Fighter(Position(5, 0), max_ap=5)
         self.monster = self._generate_monster()
 
+        self.game_map.set_player(self.fighter)
+
         self.movement = MovementManager(self.game_map)
         self._game_over = False
 

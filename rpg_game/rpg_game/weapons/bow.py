@@ -19,3 +19,6 @@ class Bow(Weapon):
             return True
         print("Промах!")
         return False
+
+    def name(self) -> str:
+        return 'bow'

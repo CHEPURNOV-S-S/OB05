@@ -9,3 +9,7 @@ class Weapon(ABC):
     @abstractmethod
     def execute_attack(self, attacker: Entity, target: Entity) -> bool:
         pass
+
+    @abstractmethod
+    def name (self) -> str:
+        pass

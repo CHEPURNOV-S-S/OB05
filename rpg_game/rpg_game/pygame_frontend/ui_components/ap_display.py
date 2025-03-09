@@ -31,5 +31,5 @@ class APDisplay(UIComponent):
                 screen.blit(ap_icon, (x, rect.y))
 
     def update(self, data: dict):
-        self.ap = data.get('ap', 0)
+        self.ap = data.get('current_ap', 0)
         self.max_ap = data.get('max_ap', 5)

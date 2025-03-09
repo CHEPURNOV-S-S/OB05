@@ -23,6 +23,8 @@ class PygameRenderer(RendererInterface):
         self.draw_tiled_background(self.assets.get_terrain_sprite('grass'))
         self._draw_map(game_map)
         pos = (0, SCREEN_HEIGHT - STATUS_PANEL_HEIGHT)
+        player_info = game_map.get_player().get_render_info()
+        self.status_panel.update(player_info)
         self.status_panel.render(self.screen, pos)
         pygame.display.flip()
         self.clock.tick(60)

@@ -12,3 +12,6 @@ class Sword(Weapon):
         target.take_damage(damage)
         print(f"Меч наносит {damage} урона!")
         return True
+
+    def name(self) -> str:
+        return 'sword'

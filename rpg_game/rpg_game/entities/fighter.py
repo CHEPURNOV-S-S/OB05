@@ -19,12 +19,18 @@ class Fighter(DrawableEntity):
         self.current_ap = min(self.max_ap + self.carried_over_ap, max_possible)
 
     def get_render_info(self) -> dict:
+        weapon_str = ''
+        if self.weapon:
+            weapon_str = self.weapon.name()
         return {
-            "sprite_name": "player.png",  # Только имя файла
-            "size": (64, 64),             # Размер спрайта
-            "offset": (0, 0),              # Смещение при отрисовки
-            'health': self.health,
-            'max_health': 100  # Значение из константы
+            'sprite_name': 'player.png',  # Только имя файла
+            'size': (64, 64),             # Размер спрайта
+            'offset': (0, 0),             # Смещение при отрисовки
+            'health': self.health,        # Текущее здоровье
+            'max_health': 100,            # Максимальное здоровье
+            'current_ap': self.current_ap,
+            'max_ap': self.max_ap,
+            'weapon': weapon_str          # Название оружия
         }
 
     def change_weapon(self, weapon) -> bool:

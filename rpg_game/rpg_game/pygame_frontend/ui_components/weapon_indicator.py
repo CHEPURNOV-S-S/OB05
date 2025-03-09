@@ -20,7 +20,7 @@ class WeaponIndicator(UIComponent):
         rect = pygame.Rect(pos, size)
         # Название
         font = pygame.font.SysFont("Arial", 25)
-        weapon_str = self.weapon_ui_str[self.weapon]
+        weapon_str = self.weapon_ui_str.get(self.weapon, '')
         text = font.render(f"Оружие: {weapon_str}", True, (255, 255, 255) )
         screen.blit(text, rect.topleft)
 

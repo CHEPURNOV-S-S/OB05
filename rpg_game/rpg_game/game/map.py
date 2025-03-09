@@ -46,14 +46,21 @@ class IGameMap(ABC):
     def get_size(self) -> (int, int):
         pass
 
+    @abstractmethod
+    def get_player(self) -> DrawableEntity:
+        pass
+
 
 class GameMap:
-    def __init__(self, map_width: int, map_height: int):
+    def __init__(self,
+                 map_width: int,
+                 map_height: int):
         self.width = map_width
         self.height = map_height
         self.tiles = [[Tile() for _ in range(self.width)] for _ in range(self.height)]
         self.entities = []  # Новый слой для сущностей (динамические объекты)
         self._subscribe_to_events()
+        self.player = None
 
     def _subscribe_to_events(self):
         Events.ENTITY_CREATED.subscribe(self._handle_entity_created)
@@ -95,6 +102,12 @@ class GameMap:
 
     def get_entities(self) -> list[DrawableEntity]:
         return self.entities
+
+    def set_player(self, player: DrawableEntity):
+        self.player = player
+
+    def get_player(self) -> DrawableEntity:
+        return self.player
 
     def add_entity(self, entity: DrawableEntity):
         self.entities.append(entity)
