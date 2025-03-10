@@ -11,19 +11,23 @@ class Bow(Weapon):
     def execute_attack(self, attacker: Entity, target: Entity) -> bool:
         distance = attacker.position.distance_to(target.position)
         chance = max(0, 100 - (distance - 2) * 10)
-
-        if randint(1, 100) <= chance:
-            damage = randint(10, 20)
-            target.take_damage(damage)
-            print(f"Лук попадает! {damage} урона.")
+        if target.is_alive():
+            if randint(1, 100) <= chance:
+                damage = randint(10, 20)
+                print(f"Лук попадает! {damage} урона.")
+                Events.LOG_MESSAGE.fire(
+                    message=f"Атака луком: попадание! {damage} урона."
+                )
+                target.take_damage(damage)
+                return True
+            print("Промах!")
             Events.LOG_MESSAGE.fire(
-                message=f"Атака луком: попадание! {damage} урона."
+                message=f"Атака луком: промах!"
             )
-            return True
-        print("Промах!")
-        Events.LOG_MESSAGE.fire(
-            message=f"Атака луком: промах!"
-        )
+        else:
+            Events.LOG_MESSAGE.fire(
+                message=f"Цель уже мертва!"
+            )
         return False
 
     def name(self) -> str:

@@ -11,11 +11,18 @@ class Sword(Weapon):
     def execute_attack(self, attacker: Entity, target: Entity) -> bool:
         damage = random.randint(15, 25)
         target.take_damage(damage)
-        print(f"Меч наносит {damage} урона!")
-        Events.LOG_MESSAGE.fire(
-            message=f"Меч наносит {damage} урона!"
-        )
-        return True
+        if target.is_alive():
+            print(f"Меч наносит {damage} урона!")
+            Events.LOG_MESSAGE.fire(
+                message=f"Меч наносит {damage} урона!"
+            )
+            return True
+        else:
+            Events.LOG_MESSAGE.fire(
+                message=f"Цель уже мертва!"
+            )
+        return False
+
 
     def name(self) -> str:
         return 'sword'

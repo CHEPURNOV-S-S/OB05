@@ -17,19 +17,15 @@ class StatusPanel(UIComponent):
                  asset_manager: AssetManager):
         super().__init__( )
         self.asset_manager = asset_manager
-        self.log_display = None
-        self.components = self._init_components()
-
-
-    def _init_components(self) -> list[UIComponent]:
         self.log_display = LogDisplay((500, 10), max_messages = 10) #сохраняем ссылку
-        return [
+        self.components = [
             HealthDisplay(self.asset_manager, (10, 10)),
             APDisplay(self.asset_manager, (10, 74)),
             WeaponIndicator(self.asset_manager, (10, 148)),
             self.log_display
            # ActionPanel(self.asset_manager)
         ]
+
 
     def render(self,
                screen: pygame.Surface,

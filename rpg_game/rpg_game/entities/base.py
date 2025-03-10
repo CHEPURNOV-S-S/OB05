@@ -39,6 +39,7 @@ class Entity(ABC):
         Events.LOG_MESSAGE.fire(
             message=f"{type(self).__name__} умер"
         )
+
         Events.ENTITY_DIED.fire(entity=self)  # Уведомление о смерти
 
     def is_alive(self) -> bool:
@@ -67,6 +68,7 @@ class Entity(ABC):
             Events.LOG_MESSAGE.fire(
                 message=f"{type(self).__name__} переместился на ({new_pos.x}, {new_pos.y})"
             )
+            print(f"id(Events.LOG_MESSAGE): При перемещении {id(Events.LOG_MESSAGE)}")  # Должен быть одинаковым везде
 
     def _on_position_change(self, new_pos: Position):
         print(f"{type(self).__name__} moved to {new_pos}")

@@ -1,7 +1,6 @@
 # game/map.py
 from rpg_game.entities import Position, DrawableEntity
-from rpg_game.game.events import (
-    Events)
+from rpg_game.game.events import Events
 
 from abc import ABC, abstractmethod
 
