@@ -30,11 +30,12 @@ class Game(ABC):
         self._game_over = False
         self._game_result = None
         Events.ENTITY_DIED.subscribe(self._handle_entity_death)  # Подписка на смерть сущностей
+        self._print_controls()
 
     def _generate_monster(self):
         while True:
-            map_width, map_heigth = self.game_map.get_size()
-            x, y = random.randint(0,map_width-1), random.randint(0,map_heigth-1)
+            map_width, map_height = self.game_map.get_size()
+            x, y = random.randint(0,map_width-1), random.randint(0,map_height-1)
             if self.game_map.is_passable(Position(x, y)):
                 if not (x == 5 and y == 0):
                     return Monster(Position(x, y))
@@ -58,9 +59,9 @@ class Game(ABC):
             self._process_game_loop()
             self._check_game_over()
 
-        while True:
+        while self._game_result :
             command = self.input_handler.handle_input()
-            if command == 'attack':
+            if command in ['quit', 'exit' ]:
                 break
 
     def get_entities(self) -> list[DrawableEntity]:
@@ -75,7 +76,7 @@ class Game(ABC):
         while self.fighter.current_ap > 0 and not self._game_over:
             self.renderer.render(self.game_map)
             command = self.input_handler.handle_input()
-            if command == 'quit':
+            if command in ['quit', 'exit' ]:
                 self._game_over = True
                 return
             if command == 'end_turn':
@@ -123,7 +124,16 @@ class Game(ABC):
             self._game_result = "Вы выиграли!"
 
         Events.LOG_MESSAGE.fire(message=f"{self._game_result}")
-        Events.LOG_MESSAGE.fire(message=f'Для выхода нажмите "пробел"')
+        Events.LOG_MESSAGE.fire(message=f'Для выхода нажмите "Escape"')
+
+    def _print_controls(self):
+        Events.LOG_MESSAGE.fire(message=f'------------------------------')
+        Events.LOG_MESSAGE.fire(message=f'Escape - Выход')
+        Events.LOG_MESSAGE.fire(message=f'Enter - Завершить ход')
+        Events.LOG_MESSAGE.fire(message=f'Space - Атака')
+        Events.LOG_MESSAGE.fire(message=f'С - сменить оружие')
+        Events.LOG_MESSAGE.fire(message=f'Двигаться: ↑ ↓ ← →')
+        Events.LOG_MESSAGE.fire(message=f'=== Управление ===')
 
     def _monster_turn(self):
         if self.monster.is_alive():

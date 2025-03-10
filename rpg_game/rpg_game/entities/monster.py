@@ -6,7 +6,7 @@ import random
 
 class Monster(DrawableEntity):
     def __init__(self, position: Position):
-        super().__init__(position, health=50)
+        super().__init__(position, health=750)
 
     def attack(self, target: Entity):
         if self.calculate_distance(target) == 1:
@@ -22,5 +22,5 @@ class Monster(DrawableEntity):
             "size": (64, 64),  # Размер спрайта
             "offset": (0, 0),  # Смещение при отрисовки
             'health': self.health,
-            'max_health': 50  # Значение из константы
+            'max_health': 750  # Значение из константы
         }
