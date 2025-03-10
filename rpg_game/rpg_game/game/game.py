@@ -28,6 +28,8 @@ class Game(ABC):
 
         self.movement = MovementManager(self.game_map)
         self._game_over = False
+        self._game_result = None
+        Events.ENTITY_DIED.subscribe(self._handle_entity_death)  # Подписка на смерть сущностей
 
     def _generate_monster(self):
         while True:
@@ -55,6 +57,11 @@ class Game(ABC):
         while not self._game_over:
             self._process_game_loop()
             self._check_game_over()
+
+        while True:
+            command = self.input_handler.handle_input()
+            if command == 'attack':
+                break
 
     def get_entities(self) -> list[DrawableEntity]:
         return [self.fighter, self.monster]
@@ -106,6 +113,17 @@ class Game(ABC):
             print(f"Оружие изменено на {type(new_weapon).__name__}")
             Events.LOG_MESSAGE.fire(message=f"Оружие изменено на {type(new_weapon).__name__}")
 
+    def _handle_entity_death(self, entity):
+        """Обработка смерти сущностей"""
+        if entity == self.fighter:
+            self._game_over = True
+            self._game_result = "Вы проиграли!"
+        elif entity == self.monster:
+            self._game_over = True
+            self._game_result = "Вы выиграли!"
+
+        Events.LOG_MESSAGE.fire(message=f"{self._game_result}")
+        Events.LOG_MESSAGE.fire(message=f'Для выхода нажмите "пробел"')
 
     def _monster_turn(self):
         if self.monster.is_alive():
