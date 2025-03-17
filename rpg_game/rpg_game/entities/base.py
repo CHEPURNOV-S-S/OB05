@@ -3,6 +3,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from rpg_game.game.events import Events
+from rpg_game.my_logging import Logger
 
 @dataclass
 class Position():
@@ -35,7 +36,7 @@ class Entity(ABC):
 
     def _die(self):
 
-        print(f"{type(self).__name__} умер" )
+        Logger().info(f"{type(self).__name__} умер" )
         Events.LOG_MESSAGE.fire(
             message=f"{type(self).__name__} умер"
         )
@@ -68,10 +69,10 @@ class Entity(ABC):
             Events.LOG_MESSAGE.fire(
                 message=f"{type(self).__name__} переместился на ({new_pos.x}, {new_pos.y})"
             )
-            print(f"id(Events.LOG_MESSAGE): При перемещении {id(Events.LOG_MESSAGE)}")  # Должен быть одинаковым везде
+            Logger().debug(f"id(Events.LOG_MESSAGE): При перемещении {id(Events.LOG_MESSAGE)}")  # Должен быть одинаковым везде
 
     def _on_position_change(self, new_pos: Position):
-        print(f"{type(self).__name__} moved to {new_pos}")
+        Logger().info(f"{type(self).__name__} moved to {new_pos}")
 
 
 class DrawableEntity(Entity):

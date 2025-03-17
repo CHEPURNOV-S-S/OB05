@@ -4,12 +4,17 @@ from rpg_game.entities import DrawableEntity, Fighter, Monster, Position
 from rpg_game.weapons.sword import Sword
 from rpg_game.weapons.bow import Bow
 from rpg_game.game.events import Events
+from rpg_game.my_logging import Logger
+
 from .renderer_interface import RendererInterface
 from .input_handler_interface import InputHandlerInterface
 from .movement import MovementManager
 from .constants import MAP_WIDTH, MAP_HEIGHT
 from .map import GameMap
+
 import random
+
+
 
 class Game(ABC):
     def __init__(self,
@@ -49,10 +54,10 @@ class Game(ABC):
                     continue
                 if random.random() < 0.1:
                     self.game_map.init_tile(x, y, 'grass', 'objects', ['rock'])
-                    print (f'скала на {x}, {y}')
+                    Logger().debug (f'скала на {x}, {y}')
                 elif random.random() < 0.1:
                     self.game_map.init_tile(x, y, 'grass', 'objects', ['tree'])
-                    print(f'дерево на {x}, {y}')
+                    Logger().debug (f'дерево на {x}, {y}')
 
     def run(self):
         while not self._game_over:
@@ -111,7 +116,8 @@ class Game(ABC):
         new_index = (current_index + 1) % len(weapon_classes)
         new_weapon = weapon_classes[new_index]()  # Создаём новый экземпляр
         if self.fighter.change_weapon(new_weapon):
-            print(f"Оружие изменено на {type(new_weapon).__name__}")
+
+            Logger().info(f"Оружие изменено на {type(new_weapon).__name__}")
             Events.LOG_MESSAGE.fire(message=f"Оружие изменено на {type(new_weapon).__name__}")
 
     def _handle_entity_death(self, entity):
