@@ -1,4 +1,4 @@
-# pygame_frontend/ui_components/log_display.py
+# /ui_components/log_display.py
 
 from typing import List, Tuple
 import pygame

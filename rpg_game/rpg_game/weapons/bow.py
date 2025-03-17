@@ -1,3 +1,5 @@
+#weapon/bow.py
+
 from random import randint
 from rpg_game.entities.base import Entity
 from rpg_game.weapons.base import Weapon

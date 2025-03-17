@@ -1,3 +1,5 @@
+#weapons/base.py
+
 from abc import ABC, abstractmethod
 from rpg_game.entities.base import Entity
 

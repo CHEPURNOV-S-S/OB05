@@ -6,3 +6,4 @@ __pycache__/
 /structure.txt
 to_qwen/
 /спрайты/
+*.log

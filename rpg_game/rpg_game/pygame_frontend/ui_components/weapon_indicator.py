@@ -1,3 +1,5 @@
+# ui_components/weapon_indicator.py
+
 import pygame
 from typing import Tuple
 from .base import UIComponent
