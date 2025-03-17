@@ -15,7 +15,7 @@ class Sword(Weapon):
         damage = random.randint(15, 25)
         target.take_damage(damage)
         if target.is_alive():
-            Logger().debug(f"Меч наносит {damage} урона!")
+            Logger().info(f"Меч наносит {damage} урона!")
             Events.LOG_MESSAGE.fire(
                 message=f"Меч наносит {damage} урона!"
             )

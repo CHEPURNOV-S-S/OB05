@@ -1,6 +1,5 @@
 # game/movement.py
 from rpg_game.entities.base import Entity
-from rpg_game.entities.fighter import Fighter
 from rpg_game.entities.monster import Monster
 from rpg_game.entities.base import Position
 from .map import GameMap

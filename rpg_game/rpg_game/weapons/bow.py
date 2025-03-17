@@ -17,13 +17,13 @@ class Bow(Weapon):
         if target.is_alive():
             if randint(1, 100) <= chance:
                 damage = randint(10, 20)
-                Logger().debug(f"Лук попадает! {damage} урона.")
+                Logger().info(f"Лук попадает! {damage} урона.")
                 Events.LOG_MESSAGE.fire(
                     message=f"Атака луком: попадание! {damage} урона."
                 )
                 target.take_damage(damage)
                 return True
-            Logger().info("Промах!")
+            Logger().info("Атака луком: промах!")
             Events.LOG_MESSAGE.fire(
                 message=f"Атака луком: промах!"
             )

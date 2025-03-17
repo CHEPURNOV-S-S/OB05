@@ -4,7 +4,7 @@ from typing import List, Tuple
 import pygame
 from .base import UIComponent
 from rpg_game.game.events import Events
-import weakref
+from rpg_game.my_logging import Logger
 
 
 class LogDisplay(UIComponent):
@@ -14,7 +14,7 @@ class LogDisplay(UIComponent):
                  relative_pos: Tuple[int, int],
                  max_messages=5):
         super().__init__()
-        print(f"[LOG] Created instance: {id(self)}")
+        Logger().debug(f"[LOG] Created instance: {id(self)}")
         self.messages: List[str] = []
         self.max_messages = max_messages
         self.font = pygame.font.SysFont("Arial", 16)
@@ -43,7 +43,7 @@ class LogDisplay(UIComponent):
             message = kwargs['message']
 
         self.messages.append(message)
-        print(f"Сообщение получено: {message}")
+        Logger().debug(f"Сообщение получено: {message}")
         if len(self.messages) > self.max_messages:
             self.messages.pop(0)
 
@@ -57,6 +57,6 @@ class LogDisplay(UIComponent):
     def __del__(self):
         if self in self._instances:
             self._instances.remove(self)
-        print(f"[LOG] Destroying instance: {id(self)}")
+        Logger().debug(f"Destroying instance: {id(self)}")
         Events.LOG_MESSAGE.unsubscribe(self.add_message)
         self._unsubscribe()

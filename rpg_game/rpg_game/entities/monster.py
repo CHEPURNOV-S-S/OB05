@@ -2,7 +2,10 @@
 
 from ..entities.base import Entity, Position, DrawableEntity
 from ..weapons.base import Weapon
+from rpg_game.my_logging import Logger
 import random
+
+
 
 class Monster(DrawableEntity):
     def __init__(self, position: Position):
@@ -12,7 +15,7 @@ class Monster(DrawableEntity):
         if self.calculate_distance(target) == 1:
             damage = random.randint(10, 20)
             target.take_damage(damage)
-            print(f"Монстр атакует! {damage} урона.")
+            Logger().info(f"Монстр атакует! {damage} урона.")
             return True
         return False
 
