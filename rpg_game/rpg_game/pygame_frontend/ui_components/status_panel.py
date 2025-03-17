@@ -1,3 +1,5 @@
+# ui_components/status_panel.py
+
 from typing import Tuple
 
 import pygame

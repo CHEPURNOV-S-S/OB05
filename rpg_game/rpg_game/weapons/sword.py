@@ -1,3 +1,5 @@
+#weapon/sword.py
+
 from rpg_game.weapons.base import Weapon
 from rpg_game.entities.base import Entity
 import random

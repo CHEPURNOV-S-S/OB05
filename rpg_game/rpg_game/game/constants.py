@@ -6,7 +6,7 @@ TILE_SIZE = 64    # Размер тайла в пикселях
 
 STATUS_PANEL_HEIGHT = 225  # Размер панели статуса.
 
-# Экран теперь рассчитывается правильно:
+# Размер экрана:
 SCREEN_WIDTH  = (MAP_WIDTH  + 1) * TILE_SIZE
 SCREEN_HEIGHT = (MAP_HEIGHT + 1) * TILE_SIZE + STATUS_PANEL_HEIGHT
 FPS = 60
